@@ -5,6 +5,8 @@ const path = require("path");
 const {Circle, Triange, Square} = require("./lib/shapes.js");
 
 
+
+//questions to be prompted to the user
 const quetions = [
     {
         type: "input",
@@ -35,4 +37,7 @@ const quetions = [
             //will prompt the user to enter a valid color or hex value if input was invalid
             shapeColor.match(/#[0-9A-Fa-f]{6}/) && shapeColor.match(/^[a-z]+$/) ? true : "Please input a valid color or hex value"
     }
-]
+];
+
+//function to create the SVG file
+
