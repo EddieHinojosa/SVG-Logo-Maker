@@ -42,6 +42,10 @@ THEN I am shown a 300x200 pixel image that matches the criteria I entered
 
 
 
+https://github.com/user-attachments/assets/39e8a270-69c0-4678-81ee-a85139ec05d7
+
+
+
 
 
 
