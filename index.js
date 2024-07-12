@@ -42,7 +42,6 @@ const questions = [
 
 
 //------------------------------------------------
-
 //function to create the SVG file based on answers
 function createSVG(answers) {
     const {text, textColor, shape, shapeColor} = answers;
@@ -73,7 +72,7 @@ function init() {
             if (err) {
                 console.error("Error writing file:", err);
             } else {
-                console.log("SVG file created successfully!");
+                console.log("Generated logo.svg");
             }
         });
     });
