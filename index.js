@@ -2,12 +2,12 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
-const {Circle, Triange, Square} = require("./lib/shapes.js");
+const {Circle, Triangle, Square} = require("./lib/shapes.js");
 
 
-
+//------------------------------------------------
 //questions to be prompted to the user
-const quetions = [
+const questions = [
     {
         type: "input",
         name: "text",
@@ -21,7 +21,7 @@ const quetions = [
         message: "Please enter a color for the text (keyword or hex)",
         validate: (textColor) =>
             //will prompt the user to enter a valid color or hex value if input was invalid
-            textColor.match(/#[0-9A-Fa-f]{6}/) && textColor.match(/^[a-z]+$/) ? true : "Please input a valid color or hex value"
+            textColor.match(/^#[0-9A-Fa-f]{6}/i) || textColor.match(/^[a-z]+$/i) ? true : "Please input a valid color or hex value"
     },
     {
         type: "list",
@@ -35,9 +35,48 @@ const quetions = [
         message: "Please enter the color for your shape (keyword or hex)",
         validate: (shapeColor) =>
             //will prompt the user to enter a valid color or hex value if input was invalid
-            shapeColor.match(/#[0-9A-Fa-f]{6}/) && shapeColor.match(/^[a-z]+$/) ? true : "Please input a valid color or hex value"
+            shapeColor.match(/^#[0-9A-Fa-f]{6}/i) || shapeColor.match(/^[a-z]+$/i) ? true : "Please input a valid color or hex value"
     }
 ];
 
-//function to create the SVG file
 
+
+//------------------------------------------------
+
+//function to create the SVG file based on answers
+function createSVG(answers) {
+    const {text, textColor, shape, shapeColor} = answers;
+    const shapeSelection = {
+        Circle: new Circle(shapeColor),
+        Triangle: new Triangle (shapeColor),
+        Square: new Square(shapeColor)
+    };
+    const shapeObj = shapeSelection[shape];
+
+    const textObj = `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="${textColor}">${text}</text>`;
+    
+
+    return `<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"> + ${shapeObj.render()} ${textObj} </svg>`;
+};
+
+
+
+
+
+//function to initialize the application
+function init() {
+    inquirer.prompt(questions)
+    .then((answers) => {
+        const svg = createSVG(answers);
+        const filePath = path.join(__dirname, 'examples', 'output.svg');
+        fs.writeFile(filePath, svg, (err) => {
+            if (err) {
+                console.error("Error writing file:", err);
+            } else {
+                console.log("SVG file created successfully!");
+            }
+        });
+    });
+}
+
+init();
